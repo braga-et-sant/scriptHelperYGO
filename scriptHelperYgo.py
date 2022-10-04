@@ -18,7 +18,10 @@ def docScour(filename, color):
             skipped = 1
             while (currentRun.font.color.rgb == colorI):
                 text2add += currentRun.text
-                currentRun = para.runs[count+1]
+                try:
+                    currentRun = para.runs[count+1]
+                except:
+                    break;
                 count+=1
             if(len(text2add) > 0):
                 fullText.append(text2add)
@@ -41,7 +44,7 @@ def card2numb(img):
 
 if __name__ == '__main__':
     scriptname = input("Script name:")
-    scriptwithExt = scriptname + ".docx"
+    scriptwithExt = "script/" + scriptname + ".docx"
     fnameImg = "img/"
     fscript = scriptname + "/"
     color = "(255, 0, 0)"
@@ -60,9 +63,10 @@ if __name__ == '__main__':
         if os.path.isfile(fnameImg + scriptname + "/" + img + ".jpg"):
             pass
         else:
-            if len(card2numb(img)) > 1:
+            cardid = card2numb(img)
+            if len(cardid) > 1:
                 print("Downloading " + img + "...")
-                url = "https://storage.googleapis.com/ygoprodeck.com/pics/" + card2numb(img) + ".jpg"
+                url = "https://storage.googleapis.com/ygoprodeck.com/pics/" + cardid + ".jpg"
                 response = get(url, stream=True)
                 response.raw.decode_content = True
 
