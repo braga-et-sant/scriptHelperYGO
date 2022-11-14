@@ -66,7 +66,7 @@ if __name__ == '__main__':
             cardid = card2numb(img)
             if len(cardid) > 1:
                 print("Downloading " + img + "...")
-                url = "https://storage.googleapis.com/ygoprodeck.com/pics/" + cardid + ".jpg"
+                  url = "https://images.ygoprodeck.com/images/cards/" + cardid + ".jpg"
                 response = get(url, stream=True)
                 response.raw.decode_content = True
 
