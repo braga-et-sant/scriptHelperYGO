@@ -63,7 +63,7 @@ if __name__ == '__main__':
         if os.path.isfile(fnameImg + scriptname + "/" + img + ".jpg"):
             pass
         else:
-            cardid = card2numb(img)
+            cardid = card2numb(img.strip('.').strip('(').strip(')').strip(','))
             if len(cardid) > 1:
                 print("Downloading " + img + "...")
                   url = "https://images.ygoprodeck.com/images/cards/" + cardid + ".jpg"
