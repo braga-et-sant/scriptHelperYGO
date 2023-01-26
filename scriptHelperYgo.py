@@ -32,6 +32,8 @@ def docScour(filename, color):
 
 def card2numb(img):
     baseurl = "https://db.ygoprodeck.com/api/cardinfo.php?name="
+    #print("card2numb:")
+    #print(img)
     first_response = get(baseurl + img, timeout=5)
     response_list = first_response.json()
     #print(response_list)
@@ -42,7 +44,7 @@ def card2numb(img):
         return response_list[0]['id']
 
 
-if __name__ == '__main__':
+def executeImgGet():
     scriptname = input("Script name:")
     scriptwithExt = "script/" + scriptname + ".docx"
     fnameImg = "img/"
@@ -63,15 +65,28 @@ if __name__ == '__main__':
         if os.path.isfile(fnameImg + scriptname + "/" + img + ".jpg"):
             pass
         else:
-            cardid = card2numb(img.strip('.').strip('(').strip(')').strip(','))
+            #print(img)
+            #print(img.strip(" .,()"))
+            cardid = card2numb(img.strip(" .,()").replace("’", "'"))
             if len(cardid) > 1:
                 print("Downloading " + img + "...")
-                  url = "https://images.ygoprodeck.com/images/cards/" + cardid + ".jpg"
+                url = "https://images.ygoprodeck.com/images/cards/" + cardid + ".jpg"
                 response = get(url, stream=True)
                 response.raw.decode_content = True
 
-                with open(fnameImg + fscript + img.replace(":", "") + ".jpg", 'wb') as f:
+                with open(fnameImg + fscript + img.replace(":", "").replace("?", "") + ".jpg", 'wb') as f:
                     copyfileobj(response.raw, f)
 
     print("All Done! Feel free to close this window")
     input("")
+
+def executeRedGet():
+    scriptname = input("Script name:")
+    scriptwithExt = "script/" + scriptname + ".docx"
+    color = "(255, 0, 0)"
+    imglist = docScour(scriptwithExt, color)
+    print(imglist)
+
+if __name__ == '__main__':
+    executeImgGet()
+    #executeRedGet()
